@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment Tracker</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #333; }
+        .input-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        input, select, button { padding: 10px; border-radius: 5px; border: 1px solid #ddd; }
+        button { background-color: #28a745; color: white; cursor: pointer; border: none; font-weight: bold; }
+        button:hover { background-color: #218838; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
+        .completed { text-decoration: line-through; color: gray; }
+        .delete-btn { background: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>My Assignment Tracker</h2>
+    
+    <div class="input-group">
+        <input type="text" id="task" placeholder="Assignment eke nama...">
+        <input type="date" id="deadline">
+        <button onclick="addTask()">Add Assignment</button>
+    </div>
+
+    <table id="taskTable">
+        <thead>
+            <tr>
+                <th>Task</th>
+                <th>Deadline</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="taskList"></tbody>
+    </table>
+</div>
+
+<script>
+    function addTask() {
+        let task = document.getElementById("task").value;
+        let deadline = document.getElementById("deadline").value;
+        if (!task || !deadline) { alert("Karuna kara wistara purawanna!"); return; }
+
+        let table = document.getElementById("taskList");
+        let row = table.insertRow();
+        
+        row.innerHTML = `
+            <td class="task-text">${task}</td>
+            <td>${deadline}</td>
+            <td><input type="checkbox" onclick="toggleComplete(this)"></td>
+            <td><button class="delete-btn" onclick="deleteTask(this)">Dlt</button></td>
+        `;
+
+        // Data clear kirima
+        document.getElementById("task").value = "";
+        document.getElementById("deadline").value = "";
+    }
+
+    function toggleComplete(checkbox) {
+        let row = checkbox.closest("tr");
+        row.classList.toggle("completed");
+    }
+
+    function deleteTask(btn) {
+        btn.closest("tr").remove();
+    }
+</script>
+
+</body>
+</html>
